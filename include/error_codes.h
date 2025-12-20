@@ -1,0 +1,8 @@
+#ifndef __ERROR_CODES_H__
+#define __ERROR_CODES_H__
+
+enum RUNET_ERROR_CODES {
+  INVALID_MATRIX_INDEX_ACCESS = -101
+};
+
+#endif // __ERROR_CODES_H__

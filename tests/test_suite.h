@@ -21,6 +21,9 @@ typedef struct runet_test_suite RunetTestSuite;
   * @param size The number of tests in the array
   *
   * @return RunetTestSuite* A pointer to the new suite, or NULL on failure.
+  *
+  * @note This function assumes the parameters passed in to be correct,
+  * meaning in case of incorrect parameter there can be undefined behaviour.
   */
 RunetTestSuite *runet_test_suite_create(const char *name, RunetTest **tests, int size);
 
@@ -49,6 +52,9 @@ void runet_run_test_suite(const RunetTestSuite *suite);
   *
   * @param suites A pointer to pointer of test suites.
   * @param size The number of test suites provided.
+  *
+  * @note This function assumes the parameters passed in to be correct,
+  * meaning in case of incorrect parameter there can be undefined behaviour.
   */
 void runet_run_test_suites(RunetTestSuite **suites, int size);
 

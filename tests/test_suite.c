@@ -35,6 +35,7 @@ void runet_test_suite_free(RunetTestSuite *suite)
   for (int i = 0; i < suite->size; i++) {
     runet_test_free(suite->tests[i]);
   }
+  free(suite->tests);
   free(suite);
 }
 
@@ -62,7 +63,7 @@ static void runet_run_test_suite_base(const RunetTestSuite *suite) {
   int failed_tests[suite->size];
   int pos = -1;
 
-  printf("\n==== %s ====\n", suite->name);
+  printf("\n==== %s Suite Test ====\n", suite->name);
   for (int i = 0; i < suite->size; i++) {
     const RunetTest *test = suite->tests[i];
 

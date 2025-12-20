@@ -6,9 +6,9 @@ LDFLAGS_SO = -shared
 
 SRC = $(filter-out src/main.c, $(wildcard src/*.c))
 OBJ = $(SRC:.c=.o)
-	MAIN_OBJ = src/main.o
+MAIN_OBJ = src/main.o
 
-TEST_SRC = $(wildcard tests/*.c)
+TEST_SRC = $(filter-out tests/test_main.c, $(wildcard tests/*.c))
 TEST_OBJ = $(TEST_SRC:.c=.o)
 TEST_MAIN_OBJ = tests/test_main.o
 
@@ -21,7 +21,7 @@ librunet.so: $(OBJ)
 src/%.o: src/%.c
 	$(CC) $(CFLAGS) $(PICFLAGS) -c $< -o $@
 
-test: $(TEST_OBJ) $(TEST_MAIN_OBJ)
+test: $(TEST_OBJ) $(TEST_MAIN_OBJ) $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
 
 tests/%.o: tests/%.c
