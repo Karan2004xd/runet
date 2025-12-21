@@ -26,6 +26,21 @@ typedef struct runet_matrix RunetMatrix;
 RunetMatrix *runet_matrix_create(int row, int col, float *data);
 
 /**
+  * @brief Initializes the matrix.
+  * * This function resizes the matrix to fit the parameters
+  *
+  * @param matrix A pointer to the created matrix object.
+  * @param rows The number of rows.
+  * @param cols The number of cols.
+  * @param data The array containing the data of the matrix.
+  *
+  * @return int A status code specifying operation success or failure.
+  * (refer to RUNET_STATUS_CODE for more information)
+  */
+int runet_matrix_init(RunetMatrix *matrix, int rows,
+                      int cols, float *data);
+
+/**
   * @brief Frees the memory of the existing matrix struct.
   * * This function destroys or frees the provided matrix struct.
   *

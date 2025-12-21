@@ -1,7 +1,7 @@
 #ifndef __ERROR_CODES_H__
 #define __ERROR_CODES_H__
 
-enum RUNET_STATUS_CODE {
+enum RunetStatusCode {
   SUCCESS_CODE = 1,
   INVALID_MATRIX_INDEX_ACCESS = -101,
 

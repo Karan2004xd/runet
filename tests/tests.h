@@ -21,4 +21,6 @@ RunetTestSuite *runet_matrix_test_suite(void);
   */
 RunetTestSuite *runet_matrix_ops_test_suite(void);
 
+RunetTestSuite *runet_layer_test_suite(void);
+
 #endif // __RUNET_TESTS_H__

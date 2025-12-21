@@ -20,8 +20,35 @@ RunetMatrix *runet_matrix_create(int rows, int cols, float *data)
   return m;
 }
 
+int runet_matrix_init(RunetMatrix *matrix, int rows,
+                      int cols, float *data)
+{
+  if (!matrix) {
+    return NULL_PARAMETER;
+  }
+  matrix->rows = rows;
+  matrix->cols = cols;
+
+  int expected_size = rows * cols * sizeof(float);
+
+  if (!matrix->data) {
+    free(matrix->data);
+    matrix->data = malloc(expected_size);
+  }
+
+  if (data) {
+    memcpy(matrix->data, data, expected_size);
+  }
+
+  return SUCCESS_CODE;
+}
+
 void runet_matrix_free(RunetMatrix *m)
 {
+  if (!m) {
+    return ;
+  }
+
   if (m->data != NULL) {
     free(m->data);
   }
