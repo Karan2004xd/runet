@@ -27,6 +27,9 @@ struct runet_layer {
   RunetMatrix *bias; /** < Bias of the layer */
   RunetMatrix *output; /** < Output of the layer */
 
+  int in_features;
+  int out_features;
+
   RunetLayerForwardFn forward; /** < Function pointer to the specific forwarding function */
 };
 

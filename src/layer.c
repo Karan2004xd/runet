@@ -13,11 +13,10 @@ static int dense_forward(RunetLayer *layer,
   }
 
   int batch_size = input->rows;
-  int out_features = layer->weights->cols;
+  int out_features = layer->out_features;
 
-  if (layer->output->rows != batch_size) {
-    runet_matrix_free(layer->output);
-    layer->output = runet_matrix_create(batch_size, out_features, NULL);
+  if (layer->output->rows != batch_size || layer->output->cols != out_features) {
+    runet_matrix_init(layer->output, batch_size, out_features, NULL);
   }
   int status_code;
 
@@ -63,9 +62,18 @@ RunetLayer *runet_layer_create_dense(
   layer->activation = activation;
   layer->forward = dense_forward;
 
-  layer->weights = runet_matrix_create(output_size, input_size, NULL);
+  // W = input x output
+  layer->weights = runet_matrix_create(input_size, output_size, NULL);
+
+  // B = 1 x output
   layer->bias = runet_matrix_create(1, output_size, NULL);
-  layer->output = runet_matrix_create(output_size, 1, NULL);
+
+  // Z = 1 x output
+  layer->output = runet_matrix_create(1, output_size, NULL);
+
+  layer->in_features = input_size;
+  layer->out_features = output_size;
+
   return layer;
 }
 

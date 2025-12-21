@@ -26,7 +26,7 @@ static int test_matrix_create(void)
 static int test_matrix_init(void)
 {
   int row = 2, col = 3;
-  float input[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
+  float input[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f};
   RunetMatrix *m = runet_matrix_create(2, 2, NULL);
 
   int test = CHECK_INT(runet_matrix_init(m, row, col, input),

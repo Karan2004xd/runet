@@ -26,15 +26,20 @@ int runet_matrix_init(RunetMatrix *matrix, int rows,
   if (!matrix) {
     return NULL_PARAMETER;
   }
-  matrix->rows = rows;
-  matrix->cols = cols;
 
   int expected_size = rows * cols * sizeof(float);
 
-  if (!matrix->data) {
+  if (matrix->data && (matrix->rows != rows || matrix->cols != cols)) {
     free(matrix->data);
     matrix->data = malloc(expected_size);
+
+    if (!matrix->data) {
+      return MATRIX_ALLOCATION_FAILED;
+    }
   }
+
+  matrix->rows = rows;
+  matrix->cols = cols;
 
   if (data) {
     memcpy(matrix->data, data, expected_size);
