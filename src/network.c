@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAGIC_NUMBER 0x52554E45
-
 static const char *get_activation_name(RunetActivation act)
 {
   switch (act) {
@@ -44,53 +42,51 @@ static RunetNetwork *network_create_base(int capacity)
   return n;
 }
 
-static void network_free_base(RunetNetwork *net)
-{
-  if (!net) {
-    return ;
-  }
-
-  for (int i = 0; i < net->curr_size; i++) {
-    runet_layer_free(net->layers[i]);
-  }
-  free(net->layers);
-  free(net);
-}
-
-static void runet_network_init(RunetNetwork *net, int capacity)
-{
-  if (!net) {
-    net = network_create_base(capacity);
-  } else {
-    network_free_base(net);
-    net = network_create_base(capacity);
-  }
-}
-
 RunetNetwork *runet_network_create(int capacity)
 {
   return network_create_base(capacity);
 }
 
-int runet_network_from_file(RunetNetwork *net,
-                            const char *path)
+RunetNetwork *runet_network_from_file(const char *path, int *status_code)
 {
   FILE *file = fopen(path, "rb");
   if (!file) {
-    return FILE_OPEN_ERROR;
+    *status_code = FILE_OPEN_ERROR;
+    return NULL;
   }
 
   unsigned int magic;
   fread(&magic, sizeof(unsigned int), 1, file);
+
   if (magic != MAGIC_NUMBER) {
     fclose(file);
-    return INVALID_FILE_FORMAT;
+    *status_code = INVALID_FILE_FORMAT;
+    return NULL;
   }
 
   int layer_count;
   fread(&layer_count, sizeof(int), 1, file);
 
-  return SUCCESS_CODE;
+  RunetNetwork *net = network_create_base(layer_count);
+
+  for (int i = 0; i < layer_count; i++) {
+    int type, act_fn, rows, cols;
+    fread(&type, sizeof(int), 1, file);
+    fread(&act_fn, sizeof(int), 1, file);
+    fread(&rows, sizeof(int), 1, file);
+    fread(&cols, sizeof(int), 1, file);
+
+    RunetLayer *l = runet_layer_create_dense(rows, cols, (RunetActivation) act_fn);
+
+    fread(l->weights->data, sizeof(float), rows * cols, file);
+    fread(l->bias->data, sizeof(float), cols, file);
+
+    runet_network_add(net, l);
+  }
+
+  fclose(file);
+  *status_code = SUCCESS_CODE;
+  return net;
 }
 
 int runet_network_add(RunetNetwork *net, RunetLayer *layer)
@@ -170,5 +166,13 @@ void runet_network_summary(const RunetNetwork *net)
 
 void runet_network_free(RunetNetwork *net)
 {
-  network_free_base(net);
+  if (!net) {
+    return ;
+  }
+
+  for (int i = 0; i < net->curr_size; i++) {
+    runet_layer_free(net->layers[i]);
+  }
+  free(net->layers);
+  free(net);
 }

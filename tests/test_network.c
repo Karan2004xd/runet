@@ -9,6 +9,8 @@
 #include "../include/matrix.h"
 #include "../include/matrix_operations.h"
 
+#include <stdio.h>
+
 static int test_network_create(void)
 {
   RunetNetwork *net = runet_network_create(5);
@@ -82,12 +84,48 @@ static int test_network_predict(void)
   return test;
 }
 
+static int test_network_from_file(void)
+{
+  const char *test_path = "test_model.bin";
+  FILE *fp = fopen(test_path, "wb");
+
+  unsigned int magic = MAGIC_NUMBER;
+  int layers = 1, type = 0, act = 1;
+  int rows = 2, cols = 2;
+  float weights[] = {1.1f, 2.2f, 3.3f, 4.4f};
+  float bias[] = {0.5f, 0.6f};
+
+  fwrite(&magic, sizeof(int), 1, fp);
+  fwrite(&layers, sizeof(int), 1, fp);
+  fwrite(&type, sizeof(int), 1, fp);
+  fwrite(&act, sizeof(int), 1, fp);
+  fwrite(&rows, sizeof(int), 1, fp);
+  fwrite(&cols, sizeof(int), 1, fp);
+  fwrite(&weights, sizeof(float), 4, fp);
+  fwrite(&bias, sizeof(float), 2, fp);
+  fclose(fp);
+
+  int status_code;
+  RunetNetwork *net = runet_network_from_file(test_path, &status_code);
+
+  int test =
+    CHECK_INT(status_code, ==, SUCCESS_CODE) &&
+    CHECK_PTR(net, !=, NULL) &&
+    CHECK_FLOAT(net->layers[0]->weights->data[0], ==, 1.1f) &&
+    CHECK_FLOAT(net->layers[0]->bias->data[1], ==, 0.6f);
+
+  runet_network_free(net);
+  remove(test_path);
+  return test;
+}
+
 RunetTestSuite *runet_network_test_suite(void)
 {
   RunetTest *network_tests[] = {
     runet_test_create("runet_network_create", test_network_create),
     runet_test_create("runet_network_add", test_network_add),
     runet_test_create("runet_network_predict", test_network_predict),
+    runet_test_create("runet_network_from_file", test_network_from_file),
   };
 
   return runet_test_suite_create(

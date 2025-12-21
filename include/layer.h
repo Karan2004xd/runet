@@ -14,9 +14,9 @@ typedef enum {
 } RunetLayerType;
 
 typedef enum {
-  RUNET_ACT_NONE,
-  RUNET_ACT_RELU,
-  RUNET_ACT_SOFTMAX
+  RUNET_ACT_NONE = 0,
+  RUNET_ACT_RELU = 1,
+  RUNET_ACT_SOFTMAX = 2
 } RunetActivation;
 
 struct runet_layer {

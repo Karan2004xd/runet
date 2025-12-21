@@ -1,8 +1,10 @@
 CC = gcc
 
-CFLAGS = -Wall -Wextra -O2 -Iinclude
+CFLAGS = -Wall -Wextra -O2 -Iinclude \
+		 -fsanitize=address -fno-omit-frame-pointer -g -O0
+
 PICFLAGS = -fPIC
-LDFLAGS = -lm
+LDFLAGS = -lm -fsanitize=address
 LDFLAGS_SO = -shared
 
 SRC = $(filter-out src/main.c, $(wildcard src/*.c))
