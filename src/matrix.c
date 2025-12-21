@@ -1,7 +1,7 @@
 #include "../include/matrix.h"
-#include "../include/error_codes.h"
+#include "../include/status_codes.h"
+#include "../include/macros.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -28,6 +28,20 @@ void runet_matrix_free(RunetMatrix *m)
   free(m);
 }
 
+RunetMatrix *runet_matrix_copy(const RunetMatrix *src)
+{
+  if (!src) {
+    return NULL;
+  }
+
+  RunetMatrix *dest = runet_matrix_create(src->rows, src->cols, NULL);
+
+  size_t total_bytes = src->rows * src->cols * sizeof(float);
+  memcpy(dest->data, src->data, total_bytes);
+
+  return dest;
+}
+
 static int runet_get_index(const RunetMatrix *m, int row, int col)
 {
   if (row < 0 || col < 0) {
@@ -38,7 +52,7 @@ static int runet_get_index(const RunetMatrix *m, int row, int col)
     return -1;
   }
 
-  return (row * m->cols) + col;
+  return ARRAY_INDEX(row, col, m->cols);
 }
 
 int runet_matrix_set(RunetMatrix *m, int row, int col, float val)
@@ -49,11 +63,6 @@ int runet_matrix_set(RunetMatrix *m, int row, int col, float val)
     m->data[index] = val;
     return index;
   }
-
-  fprintf(stderr,
-          "Trying to access an invalid index for a matrix (%dx%d)\n",
-          m->rows, m->cols);
-
   return INVALID_MATRIX_INDEX_ACCESS;
 }
 
@@ -64,10 +73,5 @@ float runet_matrix_get(const RunetMatrix *m, int row, int col)
   if ((index = runet_get_index(m, row, col)) != -1) {
     return m->data[index];
   }
-
-  fprintf(stderr,
-          "Trying to access an invalid index for a matrix (%dx%d)\n",
-          m->rows, m->cols);
-
   return INVALID_MATRIX_INDEX_ACCESS;
 }

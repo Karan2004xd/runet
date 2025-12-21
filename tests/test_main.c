@@ -4,7 +4,8 @@
 
 int main() {
   RunetTestSuite *suites[] = {
-    runet_matrix_test_suite()
+    runet_matrix_test_suite(),
+    runet_matrix_ops_test_suite(),
   };
 
   int size = ARRAY_SIZE(suites);

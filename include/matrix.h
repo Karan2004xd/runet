@@ -34,6 +34,17 @@ RunetMatrix *runet_matrix_create(int row, int col, float *data);
 void runet_matrix_free(RunetMatrix *matrix);
 
 /**
+ * @brief Creates a copy of provided matrix
+ * * This function creates a deep copy of the provided matrix
+ *
+ * @param src A pointer to the Matrix of the source Matrix
+ * (to be copied from)
+ *
+ * @return RunetMatrix* A pointer to the new copy or NULL.
+ */
+RunetMatrix *runet_matrix_copy(const RunetMatrix *src);
+
+/**
   * @brief Sets the given value to the provided location in matrix.
   * * This function based on the given row and column value, sets the
   * provided value, if the given location is valid.
@@ -48,7 +59,7 @@ void runet_matrix_free(RunetMatrix *matrix);
   * always greater then or equal to 0.
   *
   * And if not successfull it returns a negative value.
-  * (refer the RUNET_ERROR_CODES for more information).
+  * (refer the RUNET_STATUS_CODES for more information).
   */
 int runet_matrix_set(RunetMatrix *matrix, int row, int col, float value);
 
@@ -65,7 +76,7 @@ int runet_matrix_set(RunetMatrix *matrix, int row, int col, float value);
   * underlying stored value.
   *
   * And if not successfull it returns a negative value.
-  * (refer the RUNET_ERROR_CODES for more information).
+  * (refer the RUNET_STATUS_CODES for more information).
   */
 float runet_matrix_get(const RunetMatrix *matrix, int row, int col);
 

@@ -63,7 +63,7 @@ static void runet_run_test_suite_base(const RunetTestSuite *suite) {
   int failed_tests[suite->size];
   int pos = -1;
 
-  printf("\n==== %s Suite Test ====\n", suite->name);
+  printf("\n==== %s Test Suite ====\n", suite->name);
   for (int i = 0; i < suite->size; i++) {
     const RunetTest *test = suite->tests[i];
 
