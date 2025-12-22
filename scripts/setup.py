@@ -1,6 +1,5 @@
 import os
 import subprocess
-import sys
 
 def run_command(command, description):
     print(f"--- {description} ---")
@@ -23,16 +22,9 @@ def setup():
     """
     Runs the setup for building the C library.
     """
-
     success = True 
-    if 'google.colab' in sys.modules:
-        from google.colab import drive
 
-        # Mount google drive if not mounted.
-        if not os.path.exists('/content/drive'):
-            drive.mount('/content/drive')
-
-    if os.path.exists('Makefile') or os.path.exists('../Makefile'):
+    if os.path.exists('Makefile'):
         run_command("make clean && make test && ./test", "Compiling Runet C Engine")
         run_command("make clean && make librunet.so", "Compiling Runet C Engine")
     else:
