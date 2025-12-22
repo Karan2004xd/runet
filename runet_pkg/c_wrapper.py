@@ -34,7 +34,7 @@ class CWrapper:
         self._runet_network_predict_init()
         self._runet_network_summary_init()
 
-    def runet_matrix_create(self, data: list | np.ndarray) -> ctypes._NamedFuncPointer:
+    def runet_matrix_create(self, data: list | np.ndarray):
         """
         Calls the runet_matrix_create api from the c library,
         which creates a matrix.
@@ -93,7 +93,7 @@ class CWrapper:
 
         self._lib.runet_network_summary(self._network)
 
-    def runet_network_predict(self, c_input_ptr: ctypes._NamedFuncPointer) -> np.ndarray:
+    def runet_network_predict(self, c_input_ptr) -> np.ndarray:
         """
         Calls the runet_network_predict api from the c library,
         which runs the infernece engine and makes the prediction for the
