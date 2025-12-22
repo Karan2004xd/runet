@@ -1,11 +1,17 @@
 CC = gcc
 
-CFLAGS = -Wall -Wextra -O2 -Iinclude \
-		 -fsanitize=address -fno-omit-frame-pointer -g -O0
+CFLAGS = -Wall -Wextra -O2 -Iinclude -fno-omit-frame-pointer -g -O0
 
 PICFLAGS = -fPIC
-LDFLAGS = -lm -fsanitize=address
-LDFLAGS_SO = -shared
+LDFLAGS = -lm
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Darwin)
+	LDFLAGS_SO = -dynamiclib
+	CFLAGS += -arch arm64
+else
+	LDFLAGS_SO += -shared
+endif
 
 SRC = $(filter-out src/main.c, $(wildcard src/*.c))
 OBJ = $(SRC:.c=.o)
@@ -19,7 +25,7 @@ runet: $(OBJ) $(MAIN_OBJ)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 librunet.so: $(OBJ)
-	$(CC) $(LDFLAGS_SO) -o $@ $^
+	$(CC) $(LDFLAGS_SO) -o libs/$@ $^
 
 src/%.o: src/%.c
 	$(CC) $(CFLAGS) $(PICFLAGS) -c $< -o $@
@@ -31,6 +37,6 @@ tests/%.o: tests/%.c
 	$(CC) $(CFLAGS) $(PICFLAGS) -c $< -o $@
 
 clean:
-	rm -f src/*.o runet librunet.so tests/*.o test
+	rm -f src/*.o runet tests/*.o test
 
 .PHONY: clean
