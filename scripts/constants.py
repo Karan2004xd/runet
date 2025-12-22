@@ -1,9 +1,12 @@
 import os
 
-BASE_DIR = os.path.abspath("..")
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+BASE_DIR = os.path.dirname(SCRIPT_DIR)
 LIB_PATH = os.path.join(BASE_DIR, "libs", "librunet.so")
 
 DEFAULT_BIN_PATH = os.path.join(BASE_DIR, "libs", "runet_model.bin")
+
 MAGIC_NUMBER = 0x52554E45
 
 SUPPORTED_MODELS = [
