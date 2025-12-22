@@ -1,10 +1,19 @@
 import os
+import glob
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-BASE_DIR = os.path.dirname(SCRIPT_DIR)
-LIB_PATH = os.path.join(BASE_DIR, "libs", "librunet.so")
+pkg_so = glob.glob(os.path.join(SCRIPT_DIR, "librunet.so"))
+dev_so = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "libs", "librunet.so"))
 
+if pkg_so:
+    LIB_PATH = pkg_so[0]
+elif os.path.exists(dev_so):
+    LIB_PATH = dev_so
+else:
+    LIB_PATH = "librunet.so"
+
+BASE_DIR = os.path.dirname(SCRIPT_DIR)
 DEFAULT_BIN_PATH = os.path.join(BASE_DIR, "libs", "runet_model.bin")
 
 MAGIC_NUMBER = 0x52554E45
