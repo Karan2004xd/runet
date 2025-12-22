@@ -5,6 +5,7 @@ from setuptools.command.build_ext import build_ext
 
 class BuildWithMake(build_ext):
     def run(self):
+        subprocess.check_call(['mkdir', '-p', 'libs'])
         subprocess.check_call(['make', 'clean'])
 
         print("\n--- Running Tests ---")
