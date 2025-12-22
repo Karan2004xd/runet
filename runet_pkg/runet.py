@@ -1,5 +1,5 @@
-import constants as constant
-from c_wrapper import CWrapper
+from . import constants as constant
+from .c_wrapper import CWrapper
 from tensorflow.keras import models
 import struct
 import numpy as np

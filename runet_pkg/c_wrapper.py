@@ -1,7 +1,7 @@
 import ctypes
 import numpy as np
 import os
-import constants as constant
+from . import constants as constant
 
 
 class RunetMatrix(ctypes.Structure):
