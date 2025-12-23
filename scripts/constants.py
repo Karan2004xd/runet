@@ -12,7 +12,7 @@ if IN_COLAB:
 else:
     BASE_DIR = Path(__file__).resolve().parent.parent
 
-LIB_DIR = os.path.join(BASE_DIR, "libs", "librunet.so")
+LIB_PATH = os.path.join(BASE_DIR, "libs", "librunet.so")
 DEFAULT_BIN_PATH = os.path.join(BASE_DIR, "libs", "runet_model.bin")
 
 MAGIC_NUMBER = 0x52554E45
