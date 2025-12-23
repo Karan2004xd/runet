@@ -25,7 +25,7 @@
 
 1. **Clone & Setup**:
    ```bash
-   git clone [https://github.com/your-username/runet.git](https://github.com/your-username/runet.git)
+   git clone https://github.com/Karan2004xd/runet.git
    cd runet
    make clean && make librunet.so
 
