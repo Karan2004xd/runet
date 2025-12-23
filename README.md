@@ -27,7 +27,7 @@
    ```bash
    git clone [https://github.com/your-username/runet.git](https://github.com/your-username/runet.git)
    cd runet
-   python3 scripts/setup.py
+   make clean && make librunet.so
 
 2. **Usage**:
     ```bash
