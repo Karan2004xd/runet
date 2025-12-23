@@ -1,19 +1,18 @@
 import os
-import glob
+from pathlib import Path
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-BASE_DIR = os.path.dirname(SCRIPT_DIR)
+try:
+    import google.colab
+    IN_COLAB = True
+except ImportError:
+    IN_COLAB = False
 
-pkg_so = glob.glob(os.path.join(SCRIPT_DIR, "librunet*.so"))
-dev_so = os.path.abspath(os.path.join(SCRIPT_DIR, "libs", "librunet.so"))
-
-if pkg_so:
-    LIB_PATH = pkg_so[0]
-elif os.path.exists(dev_so):
-    LIB_PATH = dev_so
+if IN_COLAB:
+    BASE_DIR = Path(os.getcwd())
 else:
-    LIB_PATH = "librunet.so"
+    BASE_DIR = Path(__file__).resolve().parent.parent
 
+LIB_PATH = os.path.join(BASE_DIR, "libs", "librunet.so")
 DEFAULT_BIN_PATH = os.path.join(BASE_DIR, "libs", "runet_model.bin")
 
 MAGIC_NUMBER = 0x52554E45
