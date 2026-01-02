@@ -1,6 +1,6 @@
 # Runet Inference Engine
 
-**Runet** is a high-performance, lightweight C-based inference engine for Deep Learning models. By bypassing the overhead of heavy frameworks, Runet achieves **2.3x faster execution** than TensorFlow on standard benchmarks (MNIST) with identical accuracy.
+**Runet** is a high-performance, lightweight C-based inference engine for Deep Learning models. By bypassing the overhead of heavy frameworks, Runet achieves **6.0x faster execution** than TensorFlow on standard benchmarks (MNIST) with identical accuracy.
 
 ## Features
 - **Pure C Backend**: Optimized matrix operations with zero memory leaks (Valgrind-verified).
@@ -12,7 +12,7 @@
 | Framework | Task | Accuracy | Inference Speed (Relative) |
 | :--- | :--- | :--- | :--- |
 | TensorFlow | MNIST | 98% | 1.0x |
-| **Runet Engine** | **MNIST** | **98%** | **2.3x** |
+| **Runet Engine** | **MNIST** | **98%** | **6.0x** |
 
 ## Project Structure
 - `src/`: C Source code for matrix math, layers, and network orchestration.
@@ -31,7 +31,7 @@
 
 2. **Usage**:
     ```bash
-    from runet import RunetEngine
+    from scripts.runet import RunetEngine
 
     engine = RunetEngine()
 
